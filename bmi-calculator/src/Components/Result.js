@@ -1,8 +1,15 @@
-const Result = ({ BMIResult }) => {
+
+const Result = ({ BMIResult}) => {
+
+let category;
+
+  if (BMIResult >= 30) {
+    category = 'Over Weight'
+  }
 
   return (
     <div>
-      <input value={BMIResult} readOnly/>
+      <p>{BMIResult} {category}</p>
     </div>
   )
 }

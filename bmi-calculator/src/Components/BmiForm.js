@@ -27,7 +27,21 @@ const BmiForm = () => {
   };
 
   const calculateBMI = () => {
-    setResult(703 * (weight / (height * height)));
+
+    let inputWeight = weight;
+    let inputHeight = height;
+    
+    if (weightUnit === 'lbs') {
+      inputWeight = parseFloat(weight) / 2.21
+    } 
+ 
+    if (heightUnit === 'in') {
+    inputHeight = parseFloat(height) / 39.37
+    }
+
+    const roundedResult = Math.round(inputWeight / (inputHeight * inputHeight))
+    
+    setResult(roundedResult);
   }
 
   return (
@@ -69,7 +83,8 @@ const BmiForm = () => {
         )
       }
       {
-        result && <Result BMIResult={result} />
+        result && (<Result BMIResult={result}/>
+        )
       }
       
     </div>
