@@ -1,0 +1,25 @@
+body {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #f6e0b5;
+}
+
+input[type=text]{
+  max-width: 200px;
+  background-color: #e2e4f0;
+}
+
+.form-select {
+  background-color: #e2e4f0;
+  max-width: 200px;
+}
+
+.alert{
+  max-width: 300px;
+  margin-top: 25px;
+}
+
+button{
+  margin-top: 20px;
+}
