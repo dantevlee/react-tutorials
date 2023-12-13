@@ -4,21 +4,21 @@ const Result = ({ BMIResult}) => {
 let category;
 
   if (BMIResult < 18.5) {
-    category = 'Underweight'
+    category = '"Underweight"'
   } 
   if (BMIResult >= 18.5 && BMIResult <= 24.9) {
-    category = 'Healthy Weight'
+    category = '"Healthy Weight"'
   }
   if (BMIResult >= 25.0 && BMIResult <= 29.9) {
-    category = 'Overweight'
+    category = '"Overweight"'
   }
   if (BMIResult >= 30.0) {
-    category = 'Obese'
+    category = '"Obese"'
   }
 
   return (
     <div>
-      <p class="alert alert-success">{BMIResult} {category}</p>
+      <p className="alert alert-success">{BMIResult} {category}</p>
     </div>
   )
 }

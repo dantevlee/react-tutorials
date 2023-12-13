@@ -37,8 +37,12 @@ const BmiForm = () => {
       inputHeight = parseFloat(height) / 39.37;
     }
 
-    const roundedResult =
-      Math.round((inputWeight / (inputHeight * inputHeight)) * 10) / 10;
+    let roundedResult =
+      Math.round((inputWeight / (inputHeight * inputHeight)) * 10) / 10
+
+      if (roundedResult === 0 || isNaN(roundedResult)) {
+        roundedResult = 1;
+      }
 
     setResult(roundedResult);
   };
@@ -46,16 +50,16 @@ const BmiForm = () => {
   return (
     <div >
       <form onSubmit={submitHandler}>
-        <label class="form-label">Weight:</label>
+        <label className="form-label">Weight:</label>
         <input
-          class="form-control input-group-sm mb-3"
+          className="form-control input-group-sm mb-3"
           onChange={(e) => setWeight(e.target.value)}
           placeholder="Enter Weight.."
           type="text"
         />
-        <label class="form-label">Unit:</label>
+        <label className="form-label">Unit:</label>
         <select
-          class="form-select"
+          className="form-select"
           onChange={(e) => setWeightUnit(e.target.value)}
         >
           <option disabled selected>
@@ -64,16 +68,16 @@ const BmiForm = () => {
           <option value="lbs">Pounds - (lbs)</option>
           <option value="kg">Kilograms - (kg)</option>
         </select>
-        <label class="form-label">Height:</label>
+        <label className="form-label">Height:</label>
         <input
           onChange={(e) => setHeight(e.target.value)}
           placeholder="Enter Height.."
           type="text"
-          class="form-control"
+          className="form-control"
         />
-        <label class="form-label">Unit:</label>
+        <label className="form-label">Unit:</label>
         <select
-          class="form-select"
+          className="form-select"
           onChange={(e) => setHeightUnit(e.target.value)}
         >
           <option disabled selected>
@@ -82,11 +86,11 @@ const BmiForm = () => {
           <option value="in">Inches - (in)</option>
           <option value="m">Meters - (m)</option>
         </select>
-        <button type="submit" class="btn btn-warning btn-sm">
+        <button type="submit" className="btn btn-warning btn-sm">
           Calculate BMI
         </button>
       </form>
-      {!formIsValid && <p class="alert alert-danger">Please Enter Valid Data In All Fields</p>}
+      {!formIsValid && <p className="alert alert-danger">Please Enter Valid Data In All Fields</p>}
       {result && formIsValid && <Result BMIResult={result} />}
     </div>
   );
