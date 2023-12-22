@@ -13,7 +13,7 @@ const Result = ({ character }) => {
   ));
   return (
     <div>
-      <table class="table table-dark table-hover">
+      <table className="table table-dark table-hover">
         <thead>
           <tr>
             <th>Name</th>

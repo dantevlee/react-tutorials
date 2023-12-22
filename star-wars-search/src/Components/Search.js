@@ -9,65 +9,83 @@ const Search = () => {
   const [loading, setLoading] = useState(false);
   const [response, setResponse] = useState(true);
 
-  const searchResponse = async (e) => {
+  const searchHandler = async (e) => {
     e.preventDefault();
-    setResults([])
-    if(!searchQuery) {
+    setResults([]);
+    if (!searchQuery) {
       return;
     }
-    setResponse(true)
-    setLoading(true)
-    await axios
-      .get(`https://swapi.dev/api/people/?search=${searchQuery}`)
-      .then((res) =>{
-        setAttributes(res.data.results);
-      });
+    setResponse(true);
+    setLoading(true);
+
+    try {
+      const response = await axios.get(`https://swapi.dev/api/people/?search=${searchQuery}`);
+      const characters = response.data.results;
+      await setAttributes(characters);
+    } catch (error) {
+      console.error("Error in searchResponse:", error);
+    }
   };
 
   const setAttributes = async (characters) => {
-    for (const character of characters) {
-      character.homeworld = await getHomeWorld(character.homeworld);
-      character.species = await getSpecies(character.species)
+    try {
+      const promises = characters.map(async (character) => {
+        character.homeworld = await getHomeWorld(character.homeworld);
+        character.species = await getSpecies(character.species);
+        return character;
+      });
+
+      const updatedCharacters = await Promise.all(promises);
+
+      setResults(updatedCharacters);
+      setLoading(false);
+
+      if (updatedCharacters.length === 0) {
+        setResponse(false);
+      } else {
+        setResponse(true);
+      }
+    } catch (error) {
+      console.error("Error in setAttributes:", error);
     }
-    setResults(characters)
-    setLoading(false)
-    if (characters.length === 0) {
-      setResponse(false)
-    } 
-    if (characters.length > 0) {
-      setResponse(true)
-    }
-  }
+  };
 
   const getHomeWorld = async (homeworld) => {
-    const response = await axios.get(homeworld);
-    return response.data.name
-  }
+    try {
+      const response = await axios.get(homeworld);
+      return response.data.name;
+    } catch (error) {
+      console.error("Error in getHomeWorld:", error);
+      return "Unknown";
+    }
+  };
 
   const getSpecies = async (species) => {
-    const response = await axios.get(species);
-    if (!response.data.name) {
-      return 'Human';
+    try {
+      const response = await axios.get(species);
+      return response.data.name || "Human";
+    } catch (error) {
+      console.error("Error in getSpecies:", error);
+      return "Human";
     }
-    return response.data.name
-  }
+  };
 
   return (
     <Fragment>
-      <form onSubmit={searchResponse}>
-      <div className="input-group mb-3">
-        <input
-          className="form-control"
-          onChange={(e) => setSearchQuery(e.target.value)}
-          placeholder="Search Character.."
-          type="text"
-        />
-        <button className="btn btn-primary">Search</button>
+      <form onSubmit={searchHandler}>
+        <div className="input-group mb-3">
+          <input
+            className="form-control"
+            onChange={(e) => setSearchQuery(e.target.value)}
+            placeholder="Search Character.."
+            type="text"
+          />
+          <button className="btn btn-primary">Search</button>
         </div>
       </form>
       {!response && <p>No Results</p>}
       {loading && <p>Searching..</p>}
-      { results.length > 0 && <Result character={results} />}
+      {results.length > 0 && <Result character={results} />}
     </Fragment>
   );
 };
