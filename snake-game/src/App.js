@@ -1,11 +1,12 @@
-import './App.css';
+import './App.css'
+import GameState from './components/GameState';
 
-function App() {
+const App = () => {
   return (
-    <div>
-      
+    <div className='container'>
+      <GameState />
     </div>
   );
-}
+};
 
 export default App;
