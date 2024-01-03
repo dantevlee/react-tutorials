@@ -5,10 +5,11 @@ const CountryTable = ({ countries }) => {
         <img
           className="country-flag"
           src={c.flags.png ? c.flags.png : "No Image Available."}
+          alt="None Available."
         ></img>
       </td>
       <td>{c.name.common}</td>
-      <td>{c.capital}</td>
+      <td>{c.capital || "N/A"}</td>
       <td>{c.population}</td>
       <td>
         <a href={c.maps.googleMaps} target="_blank">

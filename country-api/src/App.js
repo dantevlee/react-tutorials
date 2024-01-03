@@ -62,7 +62,7 @@ function App() {
       const searchedCountries = response.data.map((country) => ({
         flags: country.flags || "",
         name: country.name || "",
-        capital: country.capital || "",
+        capital: country.capital || "N/A",
         population: country.population || "",
         maps: country.maps || "",
         independent: country.independent || "",
